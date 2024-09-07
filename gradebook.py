@@ -1,12 +1,6 @@
 class Gradebook:
     def __init__(self):
         self.gradebook = []
-        
-    def find_gradebook(self, name):
-        for student in self.gradebook:
-            if student[0] == name in self.gradebook:
-                return name
-        return None
 
     def add_student(self,name):
         grades = [name, []]
@@ -32,19 +26,24 @@ class Gradebook:
     def calculate_average(self, name):
         for student in self.gradebook:
             if student[0] == name:
-                average = 0
-                for i in student[1]:
-                    average += sum(i[1])
-                return average
-            return None
+                total_sum = 0
+                total_grades = 0
+                for i in student[1]: #see the subjects
+                    total_sum += sum(i[1])
+                    total_grades += len(i[1])
+                if total_grades>0:
+                    return total_sum /total_grades
+        return None
 
     def display_report(self):
         print("Gradebook Report:")
         for student in self.gradebook:
-            print(student)
-            #print("Student: " + student[0])
-            #print("Subject: " + student[1][0] + ', Grades: '+ str(student[1][1]))
-    
+            print()
+            print("\nStudent: " + student[0])
+            for i in student[1]:
+                grades = i[1]
+                subject_average = sum(grades) / len(grades)
+                print(f"  Subject: {i[0]}, Grades: {grades}, Average: {subject_average:.2f}")    
 
 # Initialize an empty gradebook
 gradebook = Gradebook()
@@ -65,5 +64,8 @@ gradebook.record_grade("Alice", "Math", 90)  # Additional grade for Math
 alice_avg = gradebook.calculate_average("Alice")
 print(f"Alice's average grade: {alice_avg:.2f}")
 
-gradebook.display_report()
+# Calculate average for a student
+bob_avg = gradebook.calculate_average("Bob")
+print(f"Bob's average grade: {bob_avg:.2f}")
 
+gradebook.display_report()
