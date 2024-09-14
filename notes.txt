@@ -1,2 +1,11 @@
 gradebook.py:
 The return None is placed inside the for loop. This means if the first student in self.gradebook is not the one you are searching for, it immediately returns None, leading to the NoneType error when you try to format the result for Bob.
+
+SalesData.py:
+( ) -> tuple
+[ ] -> liste
+{ } -> dictionnaire
+
+tuple -> les valeurs à l'intérieur ne sont pas modifiables
+liste -> on peut ajouter, modifier, supprimer les valeurs à l'intérieur
+dictionnaire -> forme clé, valeur, à chaque clé est associée une valeur
