@@ -9,3 +9,14 @@ SalesData.py:
 tuple -> les valeurs à l'intérieur ne sont pas modifiables
 liste -> on peut ajouter, modifier, supprimer les valeurs à l'intérieur
 dictionnaire -> forme clé, valeur, à chaque clé est associée une valeur
+
+SalesData.py:
+Function to Remove Duplicates from a List of Tuples (Preserving Order)
+This function uses dict.fromkeys() to remove duplicates from a list of tuples while maintaining the order of the first occurrence. The list is first sorted by a specified key (e.g., the first element in the tuple), and then the dictionary keys are used to eliminate duplicates.
+
+%%
+total_sales.sort(key=lambda x: x[0])  # Sort by the first element in the tuple
+new_list = list(dict.fromkeys(total_sales))  # Remove duplicates and preserve order
+%%
+Key operation: dict.fromkeys() removes duplicates while keeping the first occurrence intact, and list() converts the dictionary back into a list.
+Use case: Ideal when you need a concise way to remove duplicates from a list of tuples without using an explicit loop.
