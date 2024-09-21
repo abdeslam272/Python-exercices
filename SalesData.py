@@ -19,12 +19,12 @@ class SalesData:
         total_sales = []
         for customer in self.saledata:
             cus = customer['customer_id']
-            lis = (cus, sales_data.total_sales(cus))
+            lis = (cus, self.total_sales(cus))
             total_sales.append(lis)
-            total_sales.sort(key = lambda x:x[1],reverse=True)
-            new_list = list(dict.fromkeys(total_sales))
-            new_list = new_list[:n]
-        print(new_list)
+        total_sales.sort(key = lambda x:x[1],reverse=True)
+        new_list = list(dict.fromkeys(total_sales))
+        new_list = new_list[:n]
+        return new_list
 
     def sales_in_date_range(self, start_date, end_date):
         sales = []
@@ -36,8 +36,14 @@ class SalesData:
 
     def average_transaction(self, customer_id):
         avr = 0
+        nbr = 0
         for customer in self.saledata:
             cus = customer['customer_id']
+            amo = customer['amount']
+            if cus == customer_id:
+                nbr += 1
+                avr += amo
+        return avr/nbr if nbr > 0 else None
 
 
 # Initialize the sales data
@@ -57,3 +63,6 @@ print(sales_data.top_customers(2))  # Output: [(3, 450.25), (1, 500.50)]
 
 # Get all sales between "2024-01-01" and "2024-01-31"
 print(sales_data.sales_in_date_range("2024-01-01", "2024-01-31"))
+
+# Get the average transaction for a customer
+print(sales_data.average_transaction(1))  # Output: 250.25
