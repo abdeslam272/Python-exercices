@@ -3,7 +3,18 @@ class SalesTransactions:
         self.transactions = transactions
     
     def total_spend_per_customer(self):
-        for customer in transactions['customer_id']:
+        my_dict = {}
+        for i in range(len(transactions)):
+            transaction = transactions[i]
+            cus = transaction['customer_id']
+            prix = transaction['price']
+            if cus not in my_dict:
+                my_dict[cus] = []
+            my_dict[cus].append(prix)
+            for cus in my_dict:
+                
+        return my_dict
+
             
 
 
@@ -27,4 +38,8 @@ transactions = [
     {'transaction_id': 1016, 'customer_id': 2, 'category': 'Groceries', 'price': 100.00, 'date': '2023-08-25', 'location': 'Los Angeles', 'payment_method': 'Cash'}
 ]
 
-        
+
+sales = SalesTransactions(transactions)
+
+# Example usage:
+print(sales.total_spend_per_customer())  # Task 1

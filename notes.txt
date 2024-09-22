@@ -20,3 +20,7 @@ new_list = list(dict.fromkeys(total_sales))  # Remove duplicates and preserve or
 %%
 Key operation: dict.fromkeys() removes duplicates while keeping the first occurrence intact, and list() converts the dictionary back into a list.
 Use case: Ideal when you need a concise way to remove duplicates from a list of tuples without using an explicit loop.
+
+SalesTransactions.py:
+You can iterate over a string, list, tuple, or even dictionary. But it is not possible to iterate over an integer or set of numbers.
+When you're appending to a list in a dictionary, you need to ensure the key exists first. If the key is missing, you'll encounter a KeyError.
