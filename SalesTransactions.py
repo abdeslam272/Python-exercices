@@ -9,12 +9,26 @@ class SalesTransactions:
             cus = transaction['customer_id']
             prix = transaction['price']
             if cus not in my_dict:
-                my_dict[cus] = []
-            my_dict[cus].append(prix)
-            for cus in my_dict:
-                
+                my_dict[cus] = 0
+            my_dict[cus] +=prix
         return my_dict
 
+    def top_customers_by_spend(self, n):
+        my_dict = self.total_spend_per_customer()  
+        my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+        return my_dict[:n]
+
+    def category_wise_spend(self):
+        my_dict = {}
+        small_dict = {}
+        for i in range(len(transactions)):
+            transaction = transactions[i]
+            cus = transaction['customer_id']
+            prix = transaction['price']
+            if cus not in my_dict:
+                my_dict[cus] = 0
+            my_dict[cus] +=prix
+        return my_dict
             
 
 
@@ -43,3 +57,4 @@ sales = SalesTransactions(transactions)
 
 # Example usage:
 print(sales.total_spend_per_customer())  # Task 1
+print(sales.top_customers_by_spend(2))   # Task 2
