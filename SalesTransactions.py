@@ -25,9 +25,24 @@ class SalesTransactions:
             transaction = transactions[i]
             cus = transaction['customer_id']
             prix = transaction['price']
+            categorie = transaction['category']
             if cus not in my_dict:
-                my_dict[cus] = 0
-            my_dict[cus] +=prix
+                my_dict[cus] = {}
+            if categorie not in my_dict[cus]:
+                my_dict[cus][categorie] = 0
+            my_dict[cus][categorie] += prix
+        return my_dict
+    
+    def monthly_sales_report(self):
+        my_dict = {}
+        for i in range(len(transactions)):
+            transaction = transactions[i]
+            date_transaction = transaction['date']
+            date_transaction = date_transaction[:7]
+            price_transaction = transaction['price']
+            if date_transaction not in my_dict:
+                my_dict[date_transaction] = 0
+            my_dict[date_transaction] += price_transaction
         return my_dict
             
 
@@ -58,3 +73,5 @@ sales = SalesTransactions(transactions)
 # Example usage:
 print(sales.total_spend_per_customer())  # Task 1
 print(sales.top_customers_by_spend(2))   # Task 2
+print(sales.category_wise_spend())       # Task 3
+print(sales.monthly_sales_report())      # Task 4
