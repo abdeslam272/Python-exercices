@@ -24,3 +24,25 @@ Use case: Ideal when you need a concise way to remove duplicates from a list of 
 SalesTransactions.py:
 You can iterate over a string, list, tuple, or even dictionary. But it is not possible to iterate over an integer or set of numbers.
 When you're appending to a list in a dictionary, you need to ensure the key exists first. If the key is missing, you'll encounter a KeyError.
+
+etl_pipeline.py:
+There are several traditional data quality checks that you should perform to verify the integrity and consistency of your data. Here are the basic tests you can run:
+1. Missing Data Checks (Null or NaN Values)
+2. Duplicate Records Check
+3. Range or Boundary Tests
+4. Consistency Checks
+5. Uniqueness Check
+6. Data Type Validation
+7. Cardinality Checks
+8. Referential Integrity (Foreign Key Checks)
+9. Outliers Detection
+10. Date Range Validation
+11. Integrity Checks for Calculated Fields
+12. Missing Categories or Unexpected Values
+
+
+What to Do After Running Tests:
+Handle Missing Data: Impute or remove missing values based on the use case.
+Resolve Duplicates: Drop or merge duplicates if needed.
+Fix Invalid Data: Correct incorrect ranges or categories.
+Outliers: Investigate or transform extreme outliers.
