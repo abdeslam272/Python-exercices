@@ -176,7 +176,7 @@ print(Superstore.columns)
 # let's create our dim_customer.sqlite
 import sqlite3
 # Establish SQLite connections
-conn = sqlite3.connect('abdeslam272/Python-exercices/dim_customer.sqlite')
+conn = sqlite3.connect(r'C:\Users\Abdo\Desktop\Mes Stages & Mes Projets\Mes Projets\Developpement Python\dim_customer.sqlite')
 cursor = conn.cursor()
 
 # Create dim_customers table
@@ -192,3 +192,74 @@ CREATE TABLE IF NOT EXISTS dim_customers (
     Region TEXT
 )
 ''')
+
+# # Create dim_products table
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS dim_products (
+#     Product_ID TEXT PRIMARY KEY,
+#     Category TEXT,
+#     Sub_Category TEXT,
+#     Product_Name TEXT
+# )
+# ''')
+
+# # Create dim_time table
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS dim_time (
+#     Order_Date TEXT PRIMARY KEY,
+#     Year INT,
+#     Month INT,
+#     Day INT,
+#     Week INT,
+#     Quarter INT
+# )
+# ''')
+
+# # Create dim_ship_mode table
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS dim_ship_mode (
+#     Ship_Mode TEXT PRIMARY KEY,
+#     Description TEXT
+# )
+# ''')
+
+# # Create fact_orders table
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS fact_orders (
+#     Order_ID TEXT PRIMARY KEY,
+#     Product_ID TEXT,
+#     Customer_ID TEXT,
+#     Sales REAL,
+#     Quantity INT,
+#     Discount REAL,
+#     Profit REAL,
+#     Order_Date TEXT,
+#     Ship_Date TEXT,
+#     Shipping_Duration REAL,
+#     Days_Difference REAL,
+#     Order_Year INT,
+#     Order_Month INT,
+#     FOREIGN KEY(Customer_ID) REFERENCES dim_customers(Customer_ID),
+#     FOREIGN KEY(Product_ID) REFERENCES dim_products(Product_ID),
+#     FOREIGN KEY(Order_Date) REFERENCES dim_time(Order_Date),
+#     FOREIGN KEY(Ship_Mode) REFERENCES dim_ship_mode(Ship_Mode)
+# )
+# ''')
+
+conn.commit()
+conn.close()
+
+
+import subprocess
+
+# Change directory to where the SQLite file is saved
+subprocess.run(["cd", r'C:\Users\Abdo\Desktop\Mes Stages & Mes Projets\Mes Projets\Developpement Python'], shell=True)
+
+# Add the new SQLite file to Git
+subprocess.run(["git", "add", "dim_customer.sqlite"], shell=True)
+
+# Commit the file
+subprocess.run(["git", "commit", "-m", "Added dim_customer.sqlite"], shell=True)
+
+# Push to the repository
+subprocess.run(["git", "push", "origin", "main"], shell=True)  # adjust 'main' to your actual branch
