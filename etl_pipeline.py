@@ -137,23 +137,58 @@ print(profit_discrepancy)
 
 # Missing Categories or Unexpected Values
 ## 
-# Define expected categories for Ship Mode
+## Define expected categories for Ship Mode
 expected_ship_modes = ['Standard Class', 'Second Class', 'First Class', 'Same Day']
 
-# Get unique values in the 'Ship Mode' column
+## Get unique values in the 'Ship Mode' column
 unique_ship_modes = Superstore['Ship Mode'].unique()
 
-# Find unexpected categories
+## Find unexpected categories
 unexpected_ship_modes = set(unique_ship_modes) - set(expected_ship_modes)
 print("Unexpected Ship Modes:", unexpected_ship_modes)
 
 
-# Define expected segments
+## Define expected segments
 expected_segments = ['Consumer', 'Corporate', 'Home Office']
 
-# Get unique values in 'Segment' column
+## Get unique values in 'Segment' column
 unique_segments = Superstore['Segment'].unique()
 
-# Find unexpected categories
+## Find unexpected categories
 unexpected_segments = set(unique_segments) - set(expected_segments)
 print("Unexpected Segments:", unexpected_segments)
+
+## Transform Part
+
+# Adding a 'Shipping Duration' column
+Superstore['Shipping Duration'] = (Superstore['Ship Date'] - Superstore['Order Date']).dt.days
+
+# Extracting year and month from the 'Order Date'
+Superstore['Order Year'] = Superstore['Order Date'].dt.year
+Superstore['Order Month'] = Superstore['Order Date'].dt.month
+
+print(Superstore.dtypes)
+
+# To get just the column names
+print(Superstore.columns)
+
+## Loading Part
+# let's create our dim_customer.sqlite
+import sqlite3
+# Establish SQLite connections
+conn = sqlite3.connect('abdeslam272/Python-exercices/dim_customer.sqlite')
+cursor = conn.cursor()
+
+# Create dim_customers table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS dim_customers (
+    Customer_ID TEXT PRIMARY KEY,
+    Customer_Name TEXT,
+    Segment TEXT,
+    Country TEXT,
+    City TEXT,
+    State TEXT,
+    Postal_Code TEXT,
+    Region TEXT
+)
+''')
