@@ -1,4 +1,5 @@
 import pandas as pd
+import sqlite3
 
 # Step 1: Extract - Load CSV into pandas DataFrame
 Superstore = pd.read_csv('https://raw.githubusercontent.com/abdeslam272/Python-exercices/main/Superstore.csv', encoding='ISO-8859-1')
@@ -172,14 +173,11 @@ print(Superstore.dtypes)
 # To get just the column names
 print(Superstore.columns)
 
-## Loading Part
-# let's create our dim_customer.sqlite
-import sqlite3
-# Establish SQLite connections
+# Step 3: Load into SQLite
 conn = sqlite3.connect(r'C:\Users\Abdo\Desktop\Mes Stages & Mes Projets\Mes Projets\Developpement Python\dim_customer.sqlite')
 cursor = conn.cursor()
 
-# Create dim_customers table
+# Create the 'dim_customers' table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS dim_customers (
     Customer_ID TEXT PRIMARY KEY,
@@ -193,73 +191,53 @@ CREATE TABLE IF NOT EXISTS dim_customers (
 )
 ''')
 
-# # Create dim_products table
-# cursor.execute('''
-# CREATE TABLE IF NOT EXISTS dim_products (
-#     Product_ID TEXT PRIMARY KEY,
-#     Category TEXT,
-#     Sub_Category TEXT,
-#     Product_Name TEXT
-# )
-# ''')
+# Insert data into 'dim_customers' from Superstore DataFrame
+# Pandas to_sql method simplifies loading the data
+dim_customers = Superstore[['Customer ID', 'Customer Name', 'Segment', 'Country', 'City', 'State', 'Postal Code', 'Region']].drop_duplicates()
 
-# # Create dim_time table
-# cursor.execute('''
-# CREATE TABLE IF NOT EXISTS dim_time (
-#     Order_Date TEXT PRIMARY KEY,
-#     Year INT,
-#     Month INT,
-#     Day INT,
-#     Week INT,
-#     Quarter INT
-# )
-# ''')
+dim_customers.to_sql('dim_customers', conn, if_exists='append', index=False)
 
-# # Create dim_ship_mode table
-# cursor.execute('''
-# CREATE TABLE IF NOT EXISTS dim_ship_mode (
-#     Ship_Mode TEXT PRIMARY KEY,
-#     Description TEXT
-# )
-# ''')
-
-# # Create fact_orders table
-# cursor.execute('''
-# CREATE TABLE IF NOT EXISTS fact_orders (
-#     Order_ID TEXT PRIMARY KEY,
-#     Product_ID TEXT,
-#     Customer_ID TEXT,
-#     Sales REAL,
-#     Quantity INT,
-#     Discount REAL,
-#     Profit REAL,
-#     Order_Date TEXT,
-#     Ship_Date TEXT,
-#     Shipping_Duration REAL,
-#     Days_Difference REAL,
-#     Order_Year INT,
-#     Order_Month INT,
-#     FOREIGN KEY(Customer_ID) REFERENCES dim_customers(Customer_ID),
-#     FOREIGN KEY(Product_ID) REFERENCES dim_products(Product_ID),
-#     FOREIGN KEY(Order_Date) REFERENCES dim_time(Order_Date),
-#     FOREIGN KEY(Ship_Mode) REFERENCES dim_ship_mode(Ship_Mode)
-# )
-# ''')
-
+# Commit and close the SQLite connection
 conn.commit()
 conn.close()
 
-
-import subprocess
-
+# Git operations: Add, commit, and push the new SQLite file
 # Change directory to where the SQLite file is saved
-subprocess.run(["cd", r'C:\Users\Abdo\Desktop\Mes Stages & Mes Projets\Mes Projets\Developpement Python'], shell=True)
-
-# Add the new SQLite file to Git
 subprocess.run(["git", "add", "dim_customer.sqlite"], shell=True)
-
-# Commit the file
 subprocess.run(["git", "commit", "-m", "Added dim_customer.sqlite"], shell=True)
+subprocess.run(["git", "push", "origin", "main"], shell=True)  # Adjust 'main' to your actual branch
 
-# Push to the repository
-subprocess.run(["git", "push", "origin", "main"], shell=True)  # adjust 'main' to your actual branch
+
+
+conn = sqlite3.connect(r'C:\Users\Abdo\Desktop\Mes Stages & Mes Projets\Mes Projets\Developpement Python\dim_customer.sqlite')
+cursor = conn.cursor()
+
+# Create the 'dim_customers' table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS dim_customers (
+    Customer_ID TEXT PRIMARY KEY,
+    Customer_Name TEXT,
+    Segment TEXT,
+    Country TEXT,
+    City TEXT,
+    State TEXT,
+    Postal_Code TEXT,
+    Region TEXT
+)
+''')
+
+# Insert data into 'dim_customers' from Superstore DataFrame
+# Pandas to_sql method simplifies loading the data
+dim_time = Superstore[['Customer ID', 'Customer Name', 'Segment', 'Country', 'City', 'State', 'Postal Code', 'Region']].drop_duplicates()
+
+dim_customers.to_sql('dim_customers', conn, if_exists='append', index=False)
+
+# Commit and close the SQLite connection
+conn.commit()
+conn.close()
+
+# Git operations: Add, commit, and push the new SQLite file
+# Change directory to where the SQLite file is saved
+subprocess.run(["git", "add", "dim_customer.sqlite"], shell=True)
+subprocess.run(["git", "commit", "-m", "Added dim_customer.sqlite"], shell=True)
+subprocess.run(["git", "push", "origin", "main"], shell=True)  # Adjust 'main' to your actual branch
