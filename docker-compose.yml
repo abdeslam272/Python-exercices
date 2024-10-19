@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  sqlite:
+  python:
+networks:
+  python-exercices
+volumes:
+  python-exercices
