@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy the Jupyter Notebook file into the container
 COPY Barcelona.ipynb .
 
-# Install Jupyter and any other dependencies
-RUN pip install jupyter notebook
+# Install necessary packages
+RUN pip install jupyter notebook pandas matplotlib seaborn requests
 
 # Specify the command to start Jupyter Notebook
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
